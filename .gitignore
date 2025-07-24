@@ -1,0 +1,27 @@
+# Python
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+*.egg-info
+dist/
+build/
+.venv
+
+# FastAPI / Uvicorn
+*.log
+.uvicorn.pid
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Poetry
+poetry.lock
+
+#Other
+structure.py
