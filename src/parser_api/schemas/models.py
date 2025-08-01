@@ -14,7 +14,7 @@ class StoreDTO(BaseModel):
     """
     id: int
     name: str
-    query: str = None
+    query: str = ''
 
 
 class CategoryDTO(BaseModel):
@@ -29,8 +29,8 @@ class CategoryDTO(BaseModel):
     """
     store: StoreDTO
     category_id: int = 0
-    name: str = None
-    path: str = None
+    name: str = ''
+    path: str = ''
 
 
 class ProductDTO(BaseModel):
@@ -54,7 +54,6 @@ class ProductDTO(BaseModel):
     price_basic: int = None
     price_with_discount: Optional[int] = None
     discount_size: Optional[int] = None
-    quantity_rate: Optional[int] = None
 
 
 class ProductDetailDTO(BaseModel):
@@ -69,5 +68,6 @@ class ProductDetailDTO(BaseModel):
     """
     category: CategoryDTO
     basic_info: ProductDTO
+    quantity_rate: Optional[int] = 0
     info: List[Dict[str, Any]] = []
     description: str

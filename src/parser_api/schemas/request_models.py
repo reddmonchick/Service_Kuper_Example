@@ -7,10 +7,27 @@ class CommandEnum(str, Enum):
     all_update = "all_update"
     update_list_id = "update_list_id"
     search_request = "search_request"
+    process_excel = "process_excel"
 
 class ScraperShop(str, Enum):
-    kuper = 'Kuper'
-    ozon = 'Ozon'
+    def __new__(cls, value):
+        obj = str.__new__(cls, value.lower())
+        obj._value_ = value.lower() 
+        return obj
+
+    KUPER = "kuper"
+    OZON = "ozon"
+
+    @classmethod
+    def _missing_(cls, value):
+        if isinstance(value, str):
+            for member in cls:
+                if member.value.lower() == value.lower():
+                    return member 
+        try:
+            return super()._missing_(value)
+        except (AttributeError, ValueError):
+            return None
 
 class ParserRequest(BaseModel):
     command: CommandEnum

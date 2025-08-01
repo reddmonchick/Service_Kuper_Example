@@ -1,10 +1,15 @@
 from parser_api.application.parser_factory import ParserFactory
 from parser_api.application.services import ParserService
 from parser_api.schemas.request_models import ScraperShop
-from parser_api.application.parser_registry import get_parser_class
+from typing import Dict
 
 
 class RegistryParserFactory(ParserFactory):
+    def __init__(self, parsers: Dict[ScraperShop, ParserService]):
+        self._parsers = parsers
+
     def get_parser(self, shop: ScraperShop) -> ParserService:
-        parser_class = get_parser_class(shop)
-        return parser_class()
+        parser = self._parsers.get(shop)
+        if not parser:
+            raise ValueError(f"Parser for shop {shop} not configured.")
+        return parser

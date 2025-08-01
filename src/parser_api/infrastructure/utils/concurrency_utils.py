@@ -1,19 +1,32 @@
-from concurrent.futures import ThreadPoolExecutor, as_completed
+# infrastructure/utils/concurrency_utils.py (или просто внутри парсера)
+
+import asyncio
 import logging
+
 logger = logging.getLogger(__name__)
 
-def run_in_threads(tasks, max_workers=20):
+async def run_concurrently(coroutines, max_concurrent=20):
     """
-    Complete tasks in many thread
-    :param tasks: List of function.
-    :param max_workers: Max threads.
-    :return: Gerenator result of tasks.
+    Выполняет корутины конкурентно с ограничением.
     """
-    logger.info(f"Запуск {len(tasks)} задач в {max_workers} потоках")
-    with ThreadPoolExecutor(max_workers=max_workers) as executor:
-        futures = [executor.submit(task) for task in tasks]
-        for future in as_completed(futures):
-            try:
-                yield future.result()
-            except Exception as e:
-                logger.error(f"Ошибка в потоке: {str(e)}", exc_info=True)
+    results = []
+    semaphore = asyncio.Semaphore(max_concurrent)
+    
+    async def run_with_semaphore(coro):
+        async with semaphore:
+            return await coro
+
+    tasks = [run_with_semaphore(coro) for coro in coroutines]
+    
+
+    task_results = await asyncio.gather(*tasks, return_exceptions=True)
+
+    for res in task_results:
+        if isinstance(res, Exception):
+            logger.error(f"Ошибка в конкурентной задаче: {res}", exc_info=True)
+        else:
+            if isinstance(res, list):
+                results.extend(res)
+            else:
+                results.append(res)
+    return results

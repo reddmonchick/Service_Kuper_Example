@@ -3,13 +3,19 @@ from parser_api.application.services import ParserService
 from parser_api.schemas.models import StoreDTO, CategoryDTO
 from parser_api.application.parser_registry import register_parser
 from parser_api.schemas.request_models import ScraperShop
-#from parser_api.infrastructure.utils.recursive_walker import RecursiveWalker
 import tls_client
 
-@register_parser(ScraperShop.ozon)
+from parser_api.infrastructure.db.uow import UnitOfWork 
+from parser_api.infrastructure.db.repositories import ProductRepository
+
+
 class OzonParser(ParserService):
+
+    def __init__(self, uow: UnitOfWork, repository: ProductRepository):
+        self.uow = uow
+        self.repository = repository
     
-    def get_stores(self):
+    def parse_all_products(self):
         ...
     
     def update_product_list(self):
