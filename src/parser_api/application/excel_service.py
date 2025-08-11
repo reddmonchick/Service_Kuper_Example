@@ -6,18 +6,18 @@ import logging
 from datetime import datetime
 from typing import List, Callable, Any
 
-from parser_api.schemas.request_models import ScraperShop
-from parser_api.schemas.models import ProductDetailDTO 
+from src.parser_api.schemas.request_models import ScraperShop
+from src.parser_api.schemas.models import ProductDetailDTO
 
 
 logger = logging.getLogger(__name__)
 
 class ExcelProcessingService:
-    def __init__(self, search_function: Callable[[str, ScraperShop], List[ProductDetailDTO]]): 
-        self.search_function = search_function
+    def __init__(self):
+        pass
 
 
-    async def process_product_ids(self, product_ids: List[str], shop: ScraperShop) -> bytes:
+    async def process_product_ids(self, search_function: Callable[[str, ScraperShop], List[ProductDetailDTO]], product_ids: List[str], shop: ScraperShop) -> bytes:
         """
         Fetch couple of ids, and write it into the excel file
         """
@@ -33,7 +33,7 @@ class ExcelProcessingService:
 
             try:
                 
-                search_result: List[ProductDetailDTO] = await self.search_function([str(product_id)], shop)
+                search_result: List[ProductDetailDTO] = await search_function([str(product_id)], shop)
                 
                 if not search_result:
                       results_for_excel.append({"product_id": product_id,
@@ -56,8 +56,13 @@ class ExcelProcessingService:
                      p.quantity_rate 
                      for p in search_result 
                      if p.basic_info and p.quantity_rate and 
-                        any(name in (p.category.store.name.lower() if p.category.store.name else '') for name in ['Metro', 'Лента'])
+                        any(name in (p.category.store.name if p.category.store.name else '') for name in ['METRO', 'Лента'])
                  )
+                
+                quantity_metro = sum(p.quantity_rate for p in search_result
+                                     if p.basic_info and p.quantity_rate and p.category.store.name == 'METRO')
+                price_metro = sum(p.basic_info.price_with_discount for p in search_result
+                                     if p.basic_info and p.quantity_rate and p.category.store.name == 'METRO')
 
                 results_for_excel.append({
                     "product_id": product_id,
@@ -66,6 +71,8 @@ class ExcelProcessingService:
                     "cheapest_price": cheapest_product.price_with_discount,
                     "cheapest_quantity": cheapest_product_detail.quantity_rate,
                     "total_quantity_metro_lenta": total_metro_lenta or 0,
+                    "quantity_metro": quantity_metro,
+                    "price_metro": price_metro,
                     "last_update_date": datetime.now(),
                  })
                 #logger.debug(f'excel results {results_for_excel}')

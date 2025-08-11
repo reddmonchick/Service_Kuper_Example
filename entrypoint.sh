@@ -10,10 +10,6 @@ done
 echo "Database is ready!"
 
 
-echo "Installing application..."
-poetry install --only-root --no-interaction
-
-
 echo "Applying database migrations..."
 alembic upgrade head
 

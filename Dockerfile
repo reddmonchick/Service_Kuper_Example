@@ -5,9 +5,10 @@ ENV POETRY_VERSION=1.8.2
 RUN pip install "poetry==$POETRY_VERSION"
 
 
-RUN apt-get update && apt-get install -y \
+RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
     libpq-dev \
+    netcat-openbsd \
     && rm -rf /var/lib/apt/lists/*
 
 

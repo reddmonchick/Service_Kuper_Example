@@ -1,4 +1,4 @@
-from parser_api.infrastructure.db.repositories.product import ProductRepository
+from src.parser_api.infrastructure.db.repositories.product import ProductRepository
 
 
 __all__=[

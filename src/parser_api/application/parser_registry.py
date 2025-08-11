@@ -1,9 +1,9 @@
 
 
 from typing import Type, Dict
-from parser_api.application.parser_factory import ParserFactory
-from parser_api.application.services import ParserService
-from parser_api.schemas.request_models import ScraperShop
+from src.parser_api.application.parser_factory import ParserFactory
+from src.parser_api.application.services import ParserService
+from src.parser_api.schemas.request_models import ScraperShop
 
 _parser_registry: Dict[ScraperShop, Type[ParserService]] = {}
 

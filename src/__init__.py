@@ -1,2 +1,0 @@
-import parser_api.infrastructure.parsers.kuper.kuper_parser
-import parser_api.infrastructure.parsers.ozon.ozon_parser

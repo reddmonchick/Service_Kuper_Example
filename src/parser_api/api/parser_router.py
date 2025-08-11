@@ -3,9 +3,9 @@ from dishka.integrations.fastapi import DishkaRoute, FromDishka # <-- Измен
 import pandas as pd
 import io
 
-from parser_api.application.parsing_service import ParsingService
-from parser_api.schemas.request_models import ParserRequest
-from parser_api.schemas.request_models import ScraperShop, CommandEnum
+from src.parser_api.application.parsing_service import ParsingService
+from src.parser_api.schemas.request_models import ParserRequest
+from src.parser_api.schemas.request_models import ScraperShop, CommandEnum
 
 import logging
 

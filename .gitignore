@@ -6,12 +6,11 @@ __pycache__
 .Python
 .venv
 .pytest_cache
-.env
-.env.docker
 venv/
 *.egg-info
 dist/
 build/
+.env
 
 # FastAPI / Uvicorn
 *.log

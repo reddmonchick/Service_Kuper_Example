@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 from typing import Dict, Any
-from parser_api.schemas.models import CategoryDTO
+from src.parser_api.schemas.models import CategoryDTO
 
 class ParserService(ABC):
     @abstractmethod

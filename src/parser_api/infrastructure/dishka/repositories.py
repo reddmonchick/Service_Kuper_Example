@@ -1,5 +1,5 @@
 from dishka import Provider, Scope, provide
-from parser_api.infrastructure.db.repositories.product import ProductRepository
+from src.parser_api.infrastructure.db.repositories.product import ProductRepository
 
 
 class RepositoriesProvider(Provider):

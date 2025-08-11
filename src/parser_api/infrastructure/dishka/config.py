@@ -1,8 +1,8 @@
 from dishka import Provider, provide, Scope
 from environs import Env
 
-from parser_api.infrastructure.config import DatabaseConfig
-from parser_api.infrastructure.config import get_database_config
+from src.parser_api.infrastructure.config import DatabaseConfig
+from src.parser_api.infrastructure.config import get_database_config
 
 
 class ConfigProvider(Provider):

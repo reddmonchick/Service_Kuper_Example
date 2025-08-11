@@ -1,7 +1,7 @@
 from __future__ import annotations
 from enum import Enum
 from pydantic import BaseModel
-from typing import List, Union, Optional
+from typing import List, Union, Optional, Dict, Any
 
 class CommandEnum(str, Enum):
     all_update = "all_update"
@@ -29,8 +29,10 @@ class ScraperShop(str, Enum):
         except (AttributeError, ValueError):
             return None
 
+from typing import Dict, Any
+
 class ParserRequest(BaseModel):
     command: CommandEnum
-    data: Optional[Union[str, List[str]]] = None
+    data: Optional[Dict[str, Any]] = None
     shop: ScraperShop
 

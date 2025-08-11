@@ -1,5 +1,5 @@
 from typing import List, Dict, Optional
-from parser_api.schemas.models import CategoryDTO, StoreDTO
+from src.parser_api.schemas.models import CategoryDTO, StoreDTO
 
 
 class CategoryTreeParser:

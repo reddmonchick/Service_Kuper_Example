@@ -1,9 +1,9 @@
-from parser_api.domain.models import CommandTypes
-from parser_api.application.services import ParserService as ParserInterface
-from parser_api.application.parser_factory import ParserFactory
-from parser_api.schemas.request_models import ScraperShop
-from parser_api.schemas.models import ProductDetailDTO 
-from parser_api.application.excel_service import ExcelProcessingService 
+from src.parser_api.domain.models import CommandTypes
+from src.parser_api.application.services import ParserService as ParserInterface
+from src.parser_api.application.parser_factory import ParserFactory
+from src.parser_api.schemas.request_models import ScraperShop
+from src.parser_api.schemas.models import ProductDetailDTO
+from src.parser_api.application.excel_service import ExcelProcessingService
 
 from fastapi import UploadFile
 
@@ -11,8 +11,9 @@ from typing import Optional, Dict, Any, List
 
 
 class ParsingService:
-    def __init__(self, parser_factory: ParserFactory):
+    def __init__(self, parser_factory: ParserFactory, excel_service: ExcelProcessingService):
         self.parser_factory = parser_factory
+        self.excel_service = excel_service
 
     async def _search_products_for_excel(self, query: str, shop: ScraperShop) -> List[ProductDetailDTO]:
         """
@@ -45,16 +46,19 @@ class ParsingService:
             return await parser.update_product_list(data)
         elif command == CommandTypes.SEARCH_REQUEST:
             parser = self.parser_factory.get_parser(shop)
-            return await parser.search_products(data)
+            query = data.get("query")
+            if not isinstance(query, str):
+                raise ValueError("`data` must contain a 'query' string for SEARCH_REQUEST")
+            return await parser.search_products(query)
         elif command == CommandTypes.PROCESS_EXCEL: 
             product_ids = data.get("product_ids", [])
             if not product_ids:
                 raise ValueError("Product_ids required for command process_excel.")
 
-            excel_service = ExcelProcessingService(self._search_products_for_excel) 
             
 
-            result_excel_bytes = await excel_service.process_product_ids( 
+            result_excel_bytes = await self.excel_service.process_product_ids( 
+                search_function=self._search_products_for_excel,
                 product_ids=product_ids,
                 shop=shop
             )

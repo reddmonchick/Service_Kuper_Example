@@ -11,7 +11,7 @@ from alembic import op
 import sqlalchemy as sa
 import sqlalchemy_utils
 from sqlalchemy.ext.declarative import declarative_base
-from parser_api.infrastructure.db.models import Base
+from src.parser_api.infrastructure.db.models import Base
 ${imports if imports else ""}
 
 # revision identifiers, used by Alembic.

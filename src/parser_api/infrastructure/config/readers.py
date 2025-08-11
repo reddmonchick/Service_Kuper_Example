@@ -1,4 +1,4 @@
-from parser_api.infrastructure.config.models import DatabaseConfig
+from src.parser_api.infrastructure.config.models import DatabaseConfig
 
 from environs import Env
 

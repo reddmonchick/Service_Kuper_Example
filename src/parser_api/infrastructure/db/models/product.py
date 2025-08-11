@@ -1,7 +1,7 @@
 from __future__ import annotations
 
-from parser_api.infrastructure.db.models.base import Base
-from parser_api.schemas.models import ProductDetailDTO, StoreDTO, CategoryDTO, ProductDTO
+from src.parser_api.infrastructure.db.models.base import Base
+from src.parser_api.schemas.models import ProductDetailDTO, StoreDTO, CategoryDTO, ProductDTO
 from sqlalchemy import Column, Integer, String, Text, ForeignKey, JSON, BigInteger  
 
 class Product(Base):

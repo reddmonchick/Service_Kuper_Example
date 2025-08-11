@@ -5,8 +5,8 @@ from typing import AsyncIterable
 from contextlib import asynccontextmanager 
 from sqlalchemy.ext.asyncio import async_sessionmaker, AsyncEngine, AsyncSession, create_async_engine
 
-from parser_api.infrastructure.config import DatabaseConfig
-from parser_api.infrastructure.db.uow import UnitOfWork
+from src.parser_api.infrastructure.config import DatabaseConfig
+from src.parser_api.infrastructure.db.uow import UnitOfWork
 
 
 class DatabaseProvider(Provider):

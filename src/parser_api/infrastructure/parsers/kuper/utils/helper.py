@@ -1,6 +1,6 @@
 
 from typing import Dict
-from parser_api.schemas.models import ProductDTO, ProductDetailDTO, CategoryDTO
+from src.parser_api.schemas.models import ProductDTO, ProductDetailDTO, CategoryDTO
 
 
 def extract_product_info(product: Dict, category: CategoryDTO = None, legacy=False) -> ProductDTO:
